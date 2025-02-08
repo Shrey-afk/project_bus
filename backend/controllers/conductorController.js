@@ -1,88 +1,124 @@
 const Conductor = require("../models/conductorModel");
 const Bus = require("../models/busModel");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+require("dotenv").config(); // Load environment variables
 
+const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key"; // Secret key for JWT
+
+// Conductor Login
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const conductor = await Conductor.findOne({ email }); // Correct way to find one user by email
+    const conductor = await Conductor.findOne({ email });
 
     if (!conductor) {
-      return res.status(400).send({ message: "Conductor not found" }); // User not found message
+      return res.status(400).json({ message: "Conductor not found" });
     }
 
-    if (conductor.password !== password) {
-      return res.status(400).send({ message: "Invalid credentials" }); // Invalid password
+    // Compare hashed password
+    const isMatch = await bcrypt.compare(password, conductor.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Optionally generate a token or do other login-related tasks here
-    return res.status(200).send({ message: "Login successful", conductor }); // Return user or token
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: conductor._id, email: conductor.email },
+      JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    return res
+      .status(200)
+      .json({ message: "Login successful", token, conductor });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
+// Conductor Registration
 const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if email is already registered
     const existingConductor = await Conductor.findOne({ email });
-    if (existingUser) {
+    if (existingConductor) {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    // Create the new user
-    const user = new Conductor({
+    // Hash password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const conductor = new Conductor({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
-    // Save the user to the database
-    await user.save();
+    await conductor.save();
 
-    // Return the response with user data and token
-    return res.status(201).send({ message: "Registration successful", user });
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: conductor._id, email: conductor.email },
+      JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
+
+    return res
+      .status(201)
+      .json({ message: "Registration successful", token, conductor });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
+// Assign Bus to Conductor
 const assignBus = async (req, res) => {
   try {
     const { conductorID, busID } = req.body;
     const conductor = await Conductor.findById(conductorID);
+
+    if (!conductor) {
+      return res.status(404).json({ message: "Conductor not found" });
+    }
+
     conductor.assignedBus = busID;
     await conductor.save();
-    return res.status(200).json(conductor);
+
+    return res
+      .status(200)
+      .json({ message: "Bus assigned successfully", conductor });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 };
 
+// Remove Assigned Bus
 const deleteAssignedBus = async (req, res) => {
   try {
-    const { conductorId } = req.params; // Get conductorId from URL parameters
-
-    // Find the conductor by ID
+    const { conductorId } = req.params;
     const conductor = await Conductor.findById(conductorId);
+
     if (!conductor) {
       return res.status(404).json({ message: "Conductor not found" });
     }
 
-    // Check if the conductor already has an assigned bus
     if (!conductor.assignedBus) {
       return res
         .status(400)
         .json({ message: "No bus assigned to this conductor" });
     }
 
-    // Remove the assigned bus by setting the assignedBus field to null
     conductor.assignedBus = null;
-    await conductor.save(); // Save the updated conductor document
+    await conductor.save();
 
     return res
       .status(200)
@@ -93,4 +129,23 @@ const deleteAssignedBus = async (req, res) => {
   }
 };
 
-module.exports = { login, register, assignBus, deleteAssignedBus };
+// Middleware to Verify JWT Token
+const verifyToken = (req, res, next) => {
+  const token = req.header("Authorization");
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Access denied. No token provided." });
+  }
+
+  try {
+    const verified = jwt.verify(token.replace("Bearer ", ""), JWT_SECRET);
+    req.user = verified;
+    next();
+  } catch (error) {
+    return res.status(400).json({ message: "Invalid token" });
+  }
+};
+
+module.exports = { login, register, assignBus, deleteAssignedBus, verifyToken };

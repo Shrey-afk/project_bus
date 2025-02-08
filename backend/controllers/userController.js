@@ -1,21 +1,35 @@
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const User = require("../models/userModel");
 const AppliedUsers = require("../models/appliedUser");
+
+const JWT_SECRET = "your_jwt_secret"; // Replace with an environment variable
 
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email }); // Correct way to find one user by email
+    const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).send({ message: "User not found" }); // User not found message
+      return res.status(400).json({ message: "User not found" });
     }
 
-    if (user.password !== password) {
-      return res.status(400).send({ message: "Invalid credentials" }); // Invalid password
+    // Compare password with hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    // Optionally generate a token or do other login-related tasks here
-    return res.status(200).send({ message: "Login successful", user }); // Return user or token
+    // Generate JWT token
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      JWT_SECRET,
+      {
+        expiresIn: "1h", // Token expires in 1 hour
+      }
+    );
+
+    return res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
@@ -32,18 +46,19 @@ const register = async (req, res) => {
       return res.status(400).json({ message: "Email already exists" });
     }
 
+    // Hash the password before saving it
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // Create the new user
     const user = new User({
       name,
       email,
-      password,
+      password: hashedPassword,
     });
 
-    // Save the user to the database
     await user.save();
 
-    // Return the response with user data and token
-    return res.status(201).send({ message: "Registration successful", user });
+    return res.status(201).json({ message: "Registration successful", user });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
@@ -55,9 +70,7 @@ const getSingleUser = async (req, res) => {
     const { userId } = req.body;
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).send({
-        message: "User not found",
-      });
+      return res.status(404).json({ message: "User not found" });
     }
 
     return res.status(200).json(user);
@@ -71,6 +84,10 @@ const updateBusPass = async (req, res) => {
   try {
     const { userID, busPass } = req.body;
     const user = await User.findById(userID);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     user.busPass = busPass;
     await user.save();
     return res.status(200).json(user);
@@ -82,26 +99,21 @@ const updateBusPass = async (req, res) => {
 
 const addUserToAppliedList = async (req, res) => {
   try {
-    const { userId } = req.body; // Expecting a single user ID
-
-    // Check if the userId is provided
+    const { userId } = req.body;
     if (!userId) {
       return res.status(400).json({ message: "Please provide a user ID." });
     }
 
-    // Validate if the user exists
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Find the AppliedUsers document (or create one if it doesn't exist)
     let appliedUsers = await AppliedUsers.findOne();
     if (!appliedUsers) {
-      appliedUsers = new AppliedUsers(); // Create a new document if not found
+      appliedUsers = new AppliedUsers();
     }
 
-    // Add the user to the array using $addToSet to prevent duplicates
     if (!appliedUsers.users.includes(userId)) {
       appliedUsers.users.push(userId);
       await appliedUsers.save();
@@ -119,10 +131,30 @@ const addUserToAppliedList = async (req, res) => {
   }
 };
 
+// Middleware to verify JWT
+const authenticateUser = (req, res, next) => {
+  const token = req.header("Authorization");
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Access denied. No token provided." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // Attach decoded token data to req.user
+    next();
+  } catch (error) {
+    return res.status(400).json({ message: "Invalid token" });
+  }
+};
+
 module.exports = {
   login,
   register,
   getSingleUser,
   updateBusPass,
   addUserToAppliedList,
+  authenticateUser,
 };
