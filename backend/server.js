@@ -45,7 +45,7 @@ app.post("/send-otp", async (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000);
 
   const mailOptions = {
-    from: "exploreease678@gmail.com", // Replace with your email
+    from: "busPass@gmail.com", // Replace with your email
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otp}. It is valid for 10 minutes.`,
@@ -59,6 +59,32 @@ app.post("/send-otp", async (req, res) => {
     res
       .status(200)
       .json({ success: true, message: "OTP sent successfully", otp });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ error: "Failed to send OTP. Please try again." });
+  }
+});
+
+app.post("/send-busPass", async (req, res) => {
+  const { user, months } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  const mailOptions = {
+    from: "busPass@gmail.com", // Replace with your email
+    to: user?.email,
+    subject: "Your Bus Pass has been succesfully generated",
+    text: `Your bus pass is ${user?.busPass} It is valid for ${months} months`,
+  };
+
+  try {
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    // Store OTP in local storage (replace this with a database in production)
+    res.status(200).json({ success: true, message: "Pass sent successfully" });
   } catch (error) {
     console.error("Error sending email:", error);
     res.status(500).json({ error: "Failed to send OTP. Please try again." });
