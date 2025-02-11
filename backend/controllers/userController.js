@@ -68,7 +68,9 @@ const register = async (req, res) => {
 const getSingleUser = async (req, res) => {
   try {
     const { userId } = req.body;
-    const user = await User.findById(userId);
+    const user = await User.findById(userId)
+      .populate("travelHistory")
+      .populate("complaints");
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
