@@ -15,6 +15,15 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    idProof: {
+      type: String,
+    },
+    passType: {
+      type: String,
+    },
+    photo: {
+      type: String,
+    },
     busPass: {
       type: String,
     },

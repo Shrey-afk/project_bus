@@ -58,7 +58,7 @@ const updateBus = async (req, res) => {
 const addPassengers = async (req, res) => {
   try {
     const { busId } = req.body;
-    const { passengerIds } = req.body; // Assuming passengerIds is an array of user IDs
+    const { passengerIds } = req.body;
 
     // Check if bus exists
     const bus = await Bus.findById(busId);

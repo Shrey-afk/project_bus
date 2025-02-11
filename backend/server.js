@@ -75,8 +75,8 @@ app.post("/send-busPass", async (req, res) => {
   const mailOptions = {
     from: "busPass@gmail.com", // Replace with your email
     to: user?.email,
-    subject: "Your Bus Pass has been succesfully generated",
-    text: `Your bus pass is ${user?.busPass} It is valid for ${months} months`,
+    subject: "Bus Pass Update",
+    text: `Your Bus Pass has been succesfully generated . Your bus pass is ${user?.busPass} It is valid for ${months} months`,
   };
 
   try {
@@ -87,7 +87,33 @@ app.post("/send-busPass", async (req, res) => {
     res.status(200).json({ success: true, message: "Pass sent successfully" });
   } catch (error) {
     console.error("Error sending email:", error);
-    res.status(500).json({ error: "Failed to send OTP. Please try again." });
+    res.status(500).json({ error: "Failed to send Mail. Please try again." });
+  }
+});
+
+app.post("/failed-busPass", async (req, res) => {
+  const { user } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  const mailOptions = {
+    from: "busPass@gmail.com", // Replace with your email
+    to: user?.email,
+    subject: "Bus Pass Update",
+    text: `Your request for bus pass was canceled`,
+  };
+
+  try {
+    // Send email
+    await transporter.sendMail(mailOptions);
+
+    // Store OTP in local storage (replace this with a database in production)
+    res.status(200).json({ success: true, message: "Mail sent successfully" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ error: "Failed to send mail. Please try again." });
   }
 });
 

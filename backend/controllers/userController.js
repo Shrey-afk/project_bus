@@ -131,6 +131,24 @@ const addUserToAppliedList = async (req, res) => {
   }
 };
 
+const addData = async (req, res) => {
+  try {
+    const { userId, idProof, passType, photo } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json("User not found");
+    }
+    user.idProof = idProof;
+    user.passType = passType;
+    user.photo = photo;
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 // Middleware to verify JWT
 const authenticateUser = (req, res, next) => {
   const token = req.header("Authorization");
@@ -155,6 +173,7 @@ module.exports = {
   register,
   getSingleUser,
   updateBusPass,
+  addData,
   addUserToAppliedList,
   authenticateUser,
 };

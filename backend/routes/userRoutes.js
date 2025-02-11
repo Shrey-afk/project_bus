@@ -6,6 +6,7 @@ const {
   getSingleUser,
   updateBusPass,
   addUserToAppliedList,
+  addData,
 } = require("../controllers/userController");
 
 // 1. Login route (POST request)
@@ -22,5 +23,7 @@ router.post("/bus-pass", updateBusPass); // POST request to update a user's bus 
 
 // 5. Add user to applied users list (POST request)
 router.post("/applied", addUserToAppliedList); // POST request to add a user to the applied users list
+
+router.post("/addData", addData); // POST request to add a user to the applied users list
 
 module.exports = router;
