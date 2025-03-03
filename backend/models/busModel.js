@@ -4,25 +4,24 @@ const busSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
     },
     from: {
       type: String,
-      required: true,
     },
     to: {
       type: String,
-      required: true,
     },
-    stops: [
-      {
-        type: String,
-      },
-    ],
-    conductor: {
-      type: mongoose.Schema.Types.ObjectId,
+    date: {
+      type: String,
     },
-    passengers: [
+    departureTime: {
+      type: String,
+    },
+    // conductor: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Conductor",
+    // },
+    users: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

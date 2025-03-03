@@ -23,14 +23,13 @@ const Login = () => {
 
     try {
       // Send login request to backend
-      const response = await axios.post("http://localhost:8000/user/login", {
+      const response = await axios.post("http://localhost:5000/user/login", {
         email,
         password,
       });
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      if (user) {
-        navigate("/home");
-      }
+
+      navigate("/");
     } catch (error) {
       // Handle login error
       setErrorMessage(error.response?.data?.message || "Login failed");
@@ -76,26 +75,6 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
-
-            <div className="mb-6">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="role"
-              >
-                Role
-              </label>
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                id="role"
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option hidden>Select your role</option>
-                <option value="admin">Admin</option>
-                <option value="admin">Conductor</option>
-                <option value="user">User</option>
-              </select>
             </div>
 
             {/* Display error message if login fails */}

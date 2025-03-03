@@ -1,29 +1,27 @@
-// Import required dependencies
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const nodemailer = require("nodemailer");
+
+const tempRoutes = require("./routes/tempUserRoutes");
 const userRoutes = require("./routes/userRoutes");
 const busRoutes = require("./routes/busRoutes");
-const conductorRoutes = require("./routes/conductorRoutes");
-const complaintRoutes = require("./routes/complaintRoutes");
+const complainRoutes = require("./routes/complaintRoutes");
 const connectDB = require("./config/db");
-const nodemailer = require("nodemailer"); // Import nodemailer
 
 connectDB();
-// Initialize the Express application
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Use CORS middleware to allow cross-origin requests
+// Middleware
 app.use(cors());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// Use body-parser middleware to parse incoming request bodies
-app.use(bodyParser.json()); // For parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // For parsing application/x-www-form-urlencoded
-
+app.use("/tempUser", tempRoutes);
 app.use("/user", userRoutes);
-app.use("/complaint", busRoutes);
-app.use("/bus", conductorRoutes);
-app.use("/conductor", complaintRoutes);
+app.use("/bus", busRoutes);
+app.use("/complain", complainRoutes);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -45,7 +43,7 @@ app.post("/send-otp", async (req, res) => {
   const otp = Math.floor(100000 + Math.random() * 900000);
 
   const mailOptions = {
-    from: "busPass@gmail.com", // Replace with your email
+    from: "exploreease678@gmail.com", // Replace with your email
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otp}. It is valid for 10 minutes.`,
@@ -68,15 +66,15 @@ app.post("/send-otp", async (req, res) => {
 app.post("/send-busPass", async (req, res) => {
   const { user, months } = req.body;
 
-  if (!email) {
+  if (!user) {
     return res.status(400).json({ error: "Email is required" });
   }
 
   const mailOptions = {
-    from: "busPass@gmail.com", // Replace with your email
+    from: "exploreease678@gmail.com", // Replace with your email
     to: user?.email,
     subject: "Bus Pass Update",
-    text: `Your Bus Pass has been succesfully generated . Your bus pass is ${user?.busPass} It is valid for ${months} months`,
+    text: `Your Bus Pass has been succesfully generated . Your login details are as follows email :${user?.email} and password ${user?.password} Your bus pass is ${user?.busPass} `,
   };
 
   try {
@@ -99,7 +97,7 @@ app.post("/failed-busPass", async (req, res) => {
   }
 
   const mailOptions = {
-    from: "busPass@gmail.com", // Replace with your email
+    from: "exploreease678@gmail.com", // Replace with your email
     to: user?.email,
     subject: "Bus Pass Update",
     text: `Your request for bus pass was canceled`,
@@ -117,8 +115,7 @@ app.post("/failed-busPass", async (req, res) => {
   }
 });
 
-// Set the server to listen on a specific port
-const PORT = process.env.PORT || 3000;
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

@@ -24,7 +24,7 @@ const Home = () => {
             loop
             muted
           />
-          <div className="absolute top-0 left-0 w-full h-full bg-opacity-50 flex flex-col justify-center items-center">
+          {/* <div className="absolute top-0 left-0 w-full h-full bg-opacity-50 flex flex-col justify-center items-center">
             <h1 className="text-black text-6xl font-bold mb-4 text-center drop-shadow-lg">
               SwiftPass
             </h1>
@@ -38,7 +38,7 @@ const Home = () => {
             >
               Apply for a Pass
             </Link>
-          </div>
+          </div> */}
         </div>
 
         {/* Features Section */}

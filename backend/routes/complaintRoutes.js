@@ -1,18 +1,14 @@
 const express = require("express");
-const router = express.Router();
 const {
-  addComplaint,
+  createComplaint,
   deleteComplaint,
   getAllComplaints,
-} = require("../controllers/complaintController");
+} = require("../controllers/complainController");
 
-// 1. Add a new complaint (POST request)
-router.post("/addComplaint", addComplaint); // POST request to add a complaint
+const router = express.Router();
 
-// 2. Delete a complaint by complaintId for a specific user (POST request)
-router.post("/delete", deleteComplaint); // POST request to delete a specific complaint
-
-// 3. Get all complaints (POST request)
-router.post("/all", getAllComplaints); // POST request to get all complaints
+router.post("/add", createComplaint); // Protected route to create a complaint
+router.post("/delete", deleteComplaint); // Protected route to delete a complaint
+router.get("/all", getAllComplaints); // Protected route to delete a complaint
 
 module.exports = router;
