@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Make sure you have axios installed
 
-const Login = () => {
+const ConductorLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); // State for error messages
@@ -11,24 +11,22 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      // role === "admin" &&
-      email === "admin@gmail.com" &&
-      password === "admin123"
-    ) {
-      navigate("/createBus");
-      return;
-    }
 
     try {
       // Send login request to backend
-      const response = await axios.post("http://localhost:5000/user/login", {
-        email,
-        password,
-      });
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      const response = await axios.post(
+        "http://localhost:5000/conductor/login",
+        {
+          email,
+          password,
+        }
+      );
+      localStorage.setItem(
+        "conductor",
+        JSON.stringify(response.data.conductor)
+      );
 
-      navigate("/");
+      navigate("/conductorBuses");
     } catch (error) {
       // Handle login error
       setErrorMessage(error.response?.data?.message || "Login failed");
@@ -40,7 +38,7 @@ const Login = () => {
       <div className="w-full h-full backdrop-blur-sm flex items-center justify-end">
         <div className="bg-opacity-65 bg-white shadow-lg rounded-lg p-8 max-w-md w-full mr-10 font-serif">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-            LOGIN
+            LOGIN (as conductor)
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -91,9 +89,9 @@ const Login = () => {
             </div>
 
             <p className="text-center text-gray-600 text-[16px] mt-4">
-              Login as conductor?{" "}
+              Login as user?{" "}
               <Link
-                to="/conductorLogin"
+                to="/login"
                 className="text-purple-500 hover:text-purple-700 font-bold"
               >
                 Login
@@ -106,4 +104,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ConductorLogin;

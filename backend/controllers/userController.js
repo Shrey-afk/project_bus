@@ -75,7 +75,7 @@ exports.getAllUsers = async (req, res) => {
 exports.getSingleUser = async (req, res) => {
   try {
     const { id } = req.body;
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("travelHistory");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -89,7 +89,7 @@ exports.getSingleUser = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
   try {
-    const { id, oldPassword, newPassword } = req.body;
+    const { id, newPassword } = req.body;
 
     const user = await User.findById(id);
     if (!user) return res.status(404).json({ message: "User not found" });

@@ -61,7 +61,7 @@ const Register = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-end bg-[url('https://img.freepik.com/free-photo/hat-map-notebook-camera-watch-keds-lie-travel-map_8353-1347.jpg?t=st=1737010664~exp=1737014264~hmac=d130f17cca24e41bc5d0c340985f19d124ce86e82f1809d985f9e40d35f21058&w=1060')] bg-cover">
+    <div className="h-screen flex items-center justify-end bg-[url('https://img.freepik.com/free-photo/crop-female-hand-using-validator-payment-while-boarding-public-transport-close-up-hand_7502-10606.jpg?t=st=1739288671~exp=1739292271~hmac=d91f11b0078ae01b27e8e7984fcad1e982c8dc58822a6969e2ff66cb87b79aed&w=1060')] bg-cover">
       <div className="h-full w-full backdrop-blur-sm flex items-center justify-end">
         <div className="bg-opacity-65 bg-white shadow-lg rounded-lg p-8 max-w-md w-full mr-10 font-serif">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
@@ -85,22 +85,7 @@ const Register = () => {
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="phone"
-              >
-                Phone
-              </label>
-              <input
-                className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                id="phone"
-                type="text"
-                placeholder="Enter your phone number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-            </div>
+
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -146,7 +131,7 @@ const Register = () => {
             <p className="text-center text-gray-600 text-[16px] mt-4">
               Already have an account?{" "}
               <Link
-                to="/"
+                to="/login"
                 className="text-purple-500 hover:text-purple-700 font-bold"
               >
                 Login

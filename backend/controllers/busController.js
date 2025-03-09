@@ -60,3 +60,29 @@ exports.allBuses = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+exports.getSingleBus = async (req, res) => {
+  try {
+    const { id } = req.body;
+    const bus = await Bus.findById(id).populate("users");
+    console.log(bus);
+    return res.status(200).send(bus);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+exports.addUser = async (req, res) => {
+  try {
+    const { userID, busID } = req.body;
+    if (!userID || !busID) {
+      return res.status(404).send("Id not found");
+    }
+    const bus = await Bus.findById(busID);
+    bus.users.push(userID);
+    await bus.save();
+    return res.status(200).json(bus);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};

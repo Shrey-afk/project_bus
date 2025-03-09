@@ -1,10 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const user = localStorage.getItem("user");
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user"); // Clear user data from local storage
+    navigate("/login"); // Redirect to the login page
+  };
+
   return (
-    <header className=" bg-slate-200 text-black  shadow-md sticky top-0 z-50 ">
+    <header className="bg-slate-200 text-black shadow-md sticky top-0 z-50">
       <div className="container mx-auto flex justify-between items-center p-4">
         {/* App Name */}
         <h1 className="text-2xl font-bold">CityCommute</h1>
@@ -39,15 +46,22 @@ const Header = () => {
                   Complaint
                 </Link>
                 <Link
-                  to="/profile"
+                  to="/history"
                   className="hover:text-blue-300 transition-colors"
                 >
-                  Profile
+                  Travel History
+                </Link>
+                <Link
+                  to="/changePasswordUser"
+                  className="hover:text-blue-300 transition-colors"
+                >
+                  Change Password
                 </Link>
 
                 <Link
                   to="/login"
                   className="hover:text-blue-300 transition-colors"
+                  onClick={handleLogout} // Add onClick handler for logout
                 >
                   LogOut
                 </Link>

@@ -11,6 +11,14 @@ import AllBuses from "./pages/user/AllBuses";
 import Complaint from "./pages/user/Complaint";
 import Complaints from "./pages/admin/Complaints";
 import Profile from "./pages/user/Profile";
+import Conductors from "./pages/admin/Conductors";
+import ConductorBuses from "./pages/conductor/ConductorBuses";
+import ConductorLogin from "./pages/conductor/ConductorLogin";
+import ChangePasswordConductor from "./pages/conductor/ChangePasswordConductor";
+import SingleConductorBus from "./pages/conductor/SingleConductorBus";
+import History from "./pages/user/History";
+import Chat from "./pages/user/Chat";
+import ChangePasswordUser from "./pages/user/ChangePasswordUser";
 
 const App = () => {
   return (
@@ -25,10 +33,19 @@ const App = () => {
           <Route path="/allBuses" element={<AllBuses />} />
           <Route path="/complaint" element={<Complaint />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/changePasswordUser" element={<ChangePasswordUser />} />
 
           <Route path="/appliedUsers" element={<AppliedUsers />} />
           <Route path="/createBus" element={<CreateBus />} />
           <Route path="/all-complaints" element={<Complaints />} />
+          <Route path="/conductors" element={<Conductors />} />
+
+          <Route path="/conductorBuses" element={<ConductorBuses />} />
+          <Route path="/conductorLogin" element={<ConductorLogin />} />
+          <Route path="/changePassword" element={<ChangePasswordConductor />} />
+          <Route path="/singleConductorBus" element={<SingleConductorBus />} />
         </Routes>
       </BrowserRouter>
     </>

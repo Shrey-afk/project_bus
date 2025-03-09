@@ -11,6 +11,10 @@ router.post("/delete", busController.deleteBus);
 // Update Bus
 router.post("/update", busController.updateBus);
 
+router.post("/getSingleBus", busController.getSingleBus);
+
 router.get("/allBuses", busController.allBuses);
+
+router.post("/addUser", busController.addUser);
 
 module.exports = router;

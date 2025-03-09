@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const AdminHeader = () => {
+const ConductorHeader = () => {
   return (
     <header className=" bg-slate-200 text-black  shadow-md sticky top-0 z-50 ">
       <div className="container mx-auto flex justify-between items-center p-4">
@@ -12,31 +12,19 @@ const AdminHeader = () => {
         <nav className="text-[20px]">
           <ul className="flex space-x-10">
             <Link
-              to="/appliedUsers"
+              to="/conductorBuses"
               className="hover:text-blue-300 transition-colors"
             >
-              Applied Users
+              Buses
             </Link>
             <Link
-              to="/createBus"
+              to="/changePassword"
               className="hover:text-blue-300 transition-colors"
             >
-              Create Bus
-            </Link>
-            <Link
-              to="/conductors"
-              className="hover:text-blue-300 transition-colors"
-            >
-              Conductors
-            </Link>
-            <Link
-              to="/all-complaints"
-              className="hover:text-blue-300 transition-colors"
-            >
-              Complaints
+              ChangePassword
             </Link>
 
-            <Link to="/" className="hover:text-blue-300 transition-colors">
+            <Link to="/login" className="hover:text-blue-300 transition-colors">
               LogOut
             </Link>
           </ul>
@@ -46,4 +34,4 @@ const AdminHeader = () => {
   );
 };
 
-export default AdminHeader;
+export default ConductorHeader;
