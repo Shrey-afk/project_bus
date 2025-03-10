@@ -52,6 +52,12 @@ const Header = () => {
                   Travel History
                 </Link>
                 <Link
+                  to="/profile"
+                  className="hover:text-blue-300 transition-colors"
+                >
+                  Profile
+                </Link>
+                <Link
                   to="/changePasswordUser"
                   className="hover:text-blue-300 transition-colors"
                 >

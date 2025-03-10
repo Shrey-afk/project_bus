@@ -68,7 +68,7 @@ const getSingleConductor = async (req, res) => {
 // Get all conductors
 const getAllConductors = async (req, res) => {
   try {
-    const conductors = await Conductor.find();
+    const conductors = await Conductor.find().populate("bus");
     res.status(200).json({ conductors });
   } catch (error) {
     res

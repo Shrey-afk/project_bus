@@ -24,7 +24,10 @@ const ConductorHeader = () => {
               ChangePassword
             </Link>
 
-            <Link to="/login" className="hover:text-blue-300 transition-colors">
+            <Link
+              to="/conductorLogin"
+              className="hover:text-blue-300 transition-colors"
+            >
               LogOut
             </Link>
           </ul>

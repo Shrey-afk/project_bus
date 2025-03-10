@@ -36,7 +36,7 @@ const AdminHeader = () => {
               Complaints
             </Link>
 
-            <Link to="/" className="hover:text-blue-300 transition-colors">
+            <Link to="/login" className="hover:text-blue-300 transition-colors">
               LogOut
             </Link>
           </ul>

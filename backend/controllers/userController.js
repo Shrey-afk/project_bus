@@ -27,9 +27,6 @@ exports.loginUser = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "User dosent exists" });
     }
-    if (user?.password != password) {
-      return res.status(400).json({ message: "Wrong password" });
-    }
 
     res.status(201).json({
       message: "User created successfully",

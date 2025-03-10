@@ -168,14 +168,7 @@ const CreateBus = () => {
                 className="w-full border px-3 py-2 rounded-lg"
                 required
               />
-              <input
-                type="text"
-                name="conductor"
-                value={busData.conductor}
-                onChange={handleChange}
-                placeholder="Conductor ID"
-                className="w-full border px-3 py-2 rounded-lg"
-              />
+
               <div className="flex justify-end space-x-2">
                 <button
                   type="button"
