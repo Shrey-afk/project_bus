@@ -6,8 +6,7 @@ const Footer = () => {
       <div className="container mx-auto text-center">
         {/* Footer Content */}
         <p className="text-sm">
-          &copy; {new Date().getFullYear()} Recovery Companion. All rights
-          reserved.
+          &copy; {new Date().getFullYear()} CityCommute. All rights reserved.
         </p>
         <nav className="mt-2">
           <ul className="flex justify-center space-x-4">

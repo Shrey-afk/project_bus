@@ -19,7 +19,7 @@ const ChangePasswordConductor = () => {
   const getConductor = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/conductor/singleConductor",
+        "https://project-bus-auxs.onrender.com/conductor/singleConductor",
         {
           id,
         }
@@ -43,7 +43,7 @@ const ChangePasswordConductor = () => {
       }
 
       const { data } = await axios.post(
-        "http://localhost:5000/conductor/changePassword",
+        "https://project-bus-auxs.onrender.com/conductor/changePassword",
         {
           email: conductorData?.email,
           newPassword: newPassword,

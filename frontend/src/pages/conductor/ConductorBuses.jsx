@@ -19,7 +19,7 @@ const ConductorBuses = () => {
   const getConductor = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/conductor/singleConductor",
+        "https://project-bus-auxs.onrender.com/conductor/singleConductor",
         {
           id,
         }

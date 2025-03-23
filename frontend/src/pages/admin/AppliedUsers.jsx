@@ -15,7 +15,7 @@ const AppliedUsers = () => {
   const getAllAppliedUser = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/tempUser/getAlltempUser"
+        "https://project-bus-auxs.onrender.com/tempUser/getAlltempUser"
       );
       setAllAppliedUsers(data.allTempUsers);
     } catch (error) {
@@ -28,9 +28,12 @@ const AppliedUsers = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/tempUser/delete", {
-        id,
-      });
+      await axios.post(
+        "https://project-bus-auxs.onrender.com/tempUser/delete",
+        {
+          id,
+        }
+      );
       approved ? null : alert("User Rejected for bus pass!!");
       setDelLoading(false);
       if (!approved) {
@@ -98,14 +101,17 @@ const AppliedUsers = () => {
       }
 
       // Send data to the backend
-      const { data } = await axios.post("http://localhost:5000/user/register", {
-        ...user,
-        password: randomPassword,
-        busPass: qrUrl, // Store Cloudinary QR code URL
-        approved: true,
-      });
+      const { data } = await axios.post(
+        "https://project-bus-auxs.onrender.com/user/register",
+        {
+          ...user,
+          password: randomPassword,
+          busPass: qrUrl, // Store Cloudinary QR code URL
+          approved: true,
+        }
+      );
       const newUser = data?.newUser;
-      await axios.post("http://localhost:5000/send-busPass", {
+      await axios.post("https://project-bus-auxs.onrender.com/send-busPass", {
         user: newUser,
       });
 

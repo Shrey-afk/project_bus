@@ -7,7 +7,9 @@ const Complaints = () => {
 
   const getAllComplaints = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/complain/all");
+      const { data } = await axios.get(
+        "https://project-bus-auxs.onrender.com/complain/all"
+      );
       setAllComplaints(data?.complaints); // Store the complaints in state
     } catch (error) {
       console.log(error);

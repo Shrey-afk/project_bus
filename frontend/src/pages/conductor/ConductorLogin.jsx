@@ -16,10 +16,13 @@ const ConductorLogin = () => {
     setLoading(true);
     try {
       // Send login request to backend
-      const response = await axios.post("/conductor/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://project-bus-auxs.onrender.com/conductor/login",
+        {
+          email,
+          password,
+        }
+      );
       localStorage.setItem(
         "conductor",
         JSON.stringify(response.data.conductor)

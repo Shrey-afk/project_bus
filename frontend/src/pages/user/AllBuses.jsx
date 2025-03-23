@@ -14,7 +14,9 @@ const AllBuses = () => {
 
   const getAllBuses = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/bus/allBuses");
+      const { data } = await axios.get(
+        "https://project-bus-auxs.onrender.com/bus/allBuses"
+      );
       setAllBuses(data?.buses);
     } catch (error) {
       console.error("Error fetching buses:", error);
@@ -23,10 +25,13 @@ const AllBuses = () => {
 
   const handleBookBus = async (busID) => {
     try {
-      const { data } = await axios.post("http://localhost:5000/bus/addUser", {
-        userID,
-        busID,
-      });
+      const { data } = await axios.post(
+        "https://project-bus-auxs.onrender.com/bus/addUser",
+        {
+          userID,
+          busID,
+        }
+      );
       if (data) {
         toast.success("Bus booked successfully!");
       } else {
@@ -87,7 +92,12 @@ const AllBuses = () => {
                 <span className="font-medium">Created At:</span>{" "}
                 {new Date(bus.createdAt).toLocaleString()}
               </p>
-
+              <button
+                onClick={() => handleBookBus(bus._id)}
+                className="w-full bg-violet-600 text-white py-2 px-4 rounded-lg hover:bg-violet-700 transition duration-300 mt-2"
+              >
+                Book
+              </button>
               <button
                 onClick={() => handleCheckStops(bus.routes)}
                 className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300 mt-2"
@@ -112,6 +122,7 @@ const AllBuses = () => {
                 </div>
               ))}
             </div>
+
             <button
               onClick={closeModal}
               className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300 mt-4"

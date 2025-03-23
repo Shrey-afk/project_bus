@@ -47,7 +47,7 @@ const Conductors = () => {
   const getAllConductors = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:5000/conductor/allConductors"
+        "https://project-bus-auxs.onrender.com/conductor/allConductors"
       );
       setAllConductors(data?.conductors);
     } catch (error) {
@@ -57,7 +57,9 @@ const Conductors = () => {
 
   const getAllBuses = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/bus/allBuses");
+      const { data } = await axios.get(
+        "https://project-bus-auxs.onrender.com/bus/allBuses"
+      );
       setAllBuses(data?.buses);
     } catch (error) {
       console.error("Error fetching buses:", error);
@@ -71,7 +73,7 @@ const Conductors = () => {
     try {
       const password = generateRandomPassword();
       const registerResponse = await axios.post(
-        "http://localhost:5000/conductor/register",
+        "https://project-bus-auxs.onrender.com/conductor/register",
         {
           name,
           email,
@@ -81,7 +83,7 @@ const Conductors = () => {
       console.log("Registration successful:", registerResponse.data);
 
       const sendConductorResponse = await axios.post(
-        "http://localhost:5000/send-conductor",
+        "https://project-bus-auxs.onrender.com/send-conductor",
         {
           name,
           email,
@@ -109,7 +111,7 @@ const Conductors = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/conductor/add-bus",
+        "https://project-bus-auxs.onrender.com/conductor/add-bus",
         {
           conductorId: selectedConductorId,
           busId: selectedBusId,

@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 
 const Apply = () => {
   const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
   const applied = localStorage.getItem("Applied") || false;
   const [formData, setFormData] = useState({
     email: "",
@@ -59,9 +60,34 @@ const Apply = () => {
     }
   };
 
+  const handlePayment = async (amount, typeOfBusPass) => {
+    const options = {
+      key: "rzp_test_ocDqI1oN10flt3", // Replace with your Razorpay Key ID
+      amount: amount * 100, // Amount in paise (e.g., 50000 paise = ₹500)
+      currency: "INR",
+      name: "Bus Pass Payment",
+      description: `Payment for ${typeOfBusPass} bus pass`,
+      image:
+        "https://images.pexels.com/photos/430205/pexels-photo-430205.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", // Add your logo URL
+      handler: function (response) {
+        alert(
+          `Payment Successful! Payment ID: ${response.razorpay_payment_id}`
+        );
+        console.log(response);
+        navigate("/"); // Navigate to home page after successful payment
+      },
+      theme: {
+        color: "#0d6efd", // Change to match your theme
+      },
+    };
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoader(true);
     try {
       // Upload applicant photo to Cloudinary
       const applicantPhotoUrl = await uploadImageToCloudinary(
@@ -82,13 +108,35 @@ const Apply = () => {
 
       // Send data to the backend
       const response = await axios.post(
-        "http://localhost:5000/tempUser/create",
+        "https://project-bus-auxs.onrender.com/tempUser/create",
         dataToSend
       );
       localStorage.setItem("Applied", true);
       console.log("Form submitted successfully:", response.data);
-      alert("Application submitted successfully move to payment page");
-      navigate("/payment");
+
+      // Determine payment amount based on type of bus pass
+      let paymentAmount = 0;
+      switch (formData.typeOfBusPass) {
+        case "Monthly":
+          paymentAmount = 200;
+          break;
+        case "Quarterly":
+          paymentAmount = 500;
+          break;
+        case "Yearly":
+          paymentAmount = 1000;
+          break;
+        default:
+          paymentAmount = 0;
+      }
+
+      // Trigger Razorpay payment
+      if (paymentAmount > 0) {
+        handlePayment(paymentAmount, formData.typeOfBusPass);
+        setLoader(false);
+      } else {
+        alert("Invalid bus pass type selected.");
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("Failed to submit application. Please try again.");
@@ -312,7 +360,7 @@ const Apply = () => {
                   type="submit"
                   className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Submit Application
+                  {loader ? "Applying..." : "Submit Application"}
                 </button>
               </div>
             </form>

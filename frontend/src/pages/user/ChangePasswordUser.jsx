@@ -18,7 +18,7 @@ const ChangePasswordUser = () => {
   const getUser = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/user/getSingle", // Updated endpoint
+        "https://project-bus-auxs.onrender.com/user/getSingle", // Updated endpoint
         {
           id,
         }

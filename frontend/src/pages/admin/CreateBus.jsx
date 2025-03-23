@@ -17,7 +17,6 @@ const CreateBus = () => {
     lastBus: "",
     description: "",
     routes: "",
-    // conductor: "",
   });
   const [editBusData, setEditBusData] = useState({
     _id: "",
@@ -30,7 +29,6 @@ const CreateBus = () => {
     lastBus: "",
     description: "",
     routes: "",
-    // conductor: "",
   });
 
   const handleChange = (e) => {
@@ -45,7 +43,7 @@ const CreateBus = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/bus/create",
+        "https://project-bus-auxs.onrender.com/bus/create",
         busData
       );
       console.log("Bus Created:", response.data);
@@ -60,7 +58,6 @@ const CreateBus = () => {
         lastBus: "",
         description: "",
         routes: "",
-        // conductor: "",
       });
       getAllBuses(); // Refresh the list of buses
     } catch (error) {
@@ -71,10 +68,13 @@ const CreateBus = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/bus/update", {
-        id: editBusData._id,
-        ...editBusData,
-      });
+      const response = await axios.post(
+        "https://project-bus-auxs.onrender.com/bus/update",
+        {
+          id: editBusData._id,
+          ...editBusData,
+        }
+      );
       console.log("Bus Updated:", response.data);
       setIsEditModalOpen(false);
       getAllBuses(); // Refresh the list of buses
@@ -85,7 +85,9 @@ const CreateBus = () => {
 
   const getAllBuses = async () => {
     try {
-      const { data } = await axios.get("http://localhost:5000/bus/allBuses");
+      const { data } = await axios.get(
+        "https://project-bus-auxs.onrender.com/bus/allBuses"
+      );
       setAllBuses(data?.buses);
     } catch (error) {
       console.error("Error fetching buses:", error);
@@ -94,7 +96,9 @@ const CreateBus = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.post(`http://localhost:5000/bus/delete/`, { id });
+      await axios.post(`https://project-bus-auxs.onrender.com/bus/delete/`, {
+        id,
+      });
       getAllBuses(); // Refresh the list of buses
     } catch (error) {
       console.error("Error deleting bus:", error);
@@ -113,7 +117,6 @@ const CreateBus = () => {
       lastBus: bus.lastBus,
       description: bus.description,
       routes: bus.routes,
-      // conductor: bus.conductor,
     });
     setIsEditModalOpen(true);
   };
@@ -125,7 +128,7 @@ const CreateBus = () => {
   return (
     <div className="min-h-screen bg-gray-100">
       <AdminHeader />
-      <div className="max-w-4xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+      <div className="max-w-4xl mx-auto mt-10 p-4 sm:p-6 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Create a New Bus</h2>
         <button
           onClick={() => setIsOpen(true)}
@@ -138,7 +141,7 @@ const CreateBus = () => {
       {/* Create Bus Modal */}
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-11/12 sm:w-96">
             <h3 className="text-xl font-semibold mb-4">Enter Bus Details</h3>
             <form onSubmit={handleSubmit} className="space-y-3">
               <input
@@ -168,7 +171,14 @@ const CreateBus = () => {
                 className="w-full border px-3 py-2 rounded-lg"
                 required
               />
-
+              <input
+                type="date"
+                name="date"
+                value={busData.date}
+                onChange={handleChange}
+                className="w-full border px-3 py-2 rounded-lg"
+                required
+              />
               <input
                 type="time"
                 name="departureTime"
@@ -231,7 +241,7 @@ const CreateBus = () => {
       {/* Edit Bus Modal */}
       {isEditModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center backdrop-blur-sm bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+          <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg lg:w-11/12 sm:w-96">
             <h3 className="text-xl font-semibold mb-4">Edit Bus Details</h3>
             <form onSubmit={handleUpdate} className="space-y-3">
               <input
@@ -294,11 +304,11 @@ const CreateBus = () => {
                 className="w-full border px-3 py-2 rounded-lg"
               />
               <input
-                type="time"
-                name="lastBus"
+                type="text"
+                name="routes"
                 value={editBusData.routes}
                 onChange={handleEditChange}
-                placeholder="Last Bus"
+                placeholder="Enter all Routes"
                 className="w-full border px-3 py-2 rounded-lg"
               />
               <textarea
@@ -329,13 +339,13 @@ const CreateBus = () => {
       )}
 
       {/* Display Buses in Card Format */}
-      <div className="max-w-4xl mx-auto mt-10 p-6">
+      <div className="max-w-4xl mx-auto mt-10 p-4 sm:p-6">
         <h2 className="text-2xl font-bold mb-4">All Buses</h2>
-        <div className="flex justify-center items-center gap-10 flex-wrap">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {allBuses.map((bus) => (
             <div
               key={bus._id}
-              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 w-[400px]"
+              className="bg-white p-4 sm:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               <div className="flex items-center justify-between mb-4">
                 <FaBus className="text-4xl text-blue-600" />
@@ -361,7 +371,6 @@ const CreateBus = () => {
               <p className="text-gray-600 mb-1">
                 <span className="font-medium">To:</span> {bus.to}
               </p>
-
               <p className="text-gray-600 mb-1">
                 <span className="font-medium">Departure Time:</span>{" "}
                 {bus.departureTime}

@@ -15,7 +15,7 @@ const Profile = () => {
   const getUser = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/user/getSingle",
+        "https://project-bus-auxs.onrender.com/user/getSingle",
         {
           id: userId,
         }
@@ -30,7 +30,7 @@ const Profile = () => {
   const handleChangePassword = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/user/updatePassword",
+        "https://project-bus-auxs.onrender.com/user/updatePassword",
         {
           id: userId,
           oldPassword,
@@ -60,9 +60,9 @@ const Profile = () => {
       <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
         <div className="w-full mx-auto">
           {/* Top Section: Flex Layout for Bus Pass, Change Password, and Additional Details */}
-          <div className="flex justify-between items-start mb-6 gap-6">
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
             {/* Bus Pass Card */}
-            <div className="w-80 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white">
+            <div className="w-full lg:w-80 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-xl font-bold">{user.fullName}</h2>
@@ -107,13 +107,14 @@ const Profile = () => {
                 />
               </div>
             </div>
+
             {/* Additional User Details Section */}
-            <div className="bg-white rounded-lg shadow-lg p-6 w-[900px]">
+            <div className="w-full bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">
                 User Details
               </h2>
               {/* Grid Layout for User Details */}
-              <div className="grid grid-cols-2 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 <div>
                   <p className="text-sm text-gray-500">Email</p>
                   <p className="text-lg font-semibold text-gray-900">
@@ -181,7 +182,7 @@ const Profile = () => {
       {/* Change Password Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-96">
+          <div className="bg-white rounded-lg p-6 w-11/12 sm:w-96">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               Change Password
             </h2>

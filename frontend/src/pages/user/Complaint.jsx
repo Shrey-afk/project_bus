@@ -22,10 +22,13 @@ const Complaint = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/complain/add", {
-        userId,
-        complaint,
-      });
+      const response = await axios.post(
+        "https://project-bus-auxs.onrender.com/complain/add",
+        {
+          userId,
+          complaint,
+        }
+      );
 
       if (response.status === 201) {
         setMessage("Complaint submitted successfully!");

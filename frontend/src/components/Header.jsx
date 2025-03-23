@@ -53,12 +53,7 @@ const Header = () => {
                 >
                   Buses
                 </Link>
-                <Link
-                  to="/chat"
-                  className="hover:text-blue-300 transition-colors"
-                >
-                  Chat
-                </Link>
+
                 <Link
                   to="/complaint"
                   className="hover:text-blue-300 transition-colors"

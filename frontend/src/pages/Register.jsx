@@ -26,7 +26,7 @@ const Register = () => {
     try {
       // First, register the user
       const registerResponse = await axios.post(
-        "http://localhost:8000/user/register",
+        "https://project-bus-auxs.onrender.com/user/register",
         {
           name,
           email,

@@ -30,10 +30,13 @@ const Login = () => {
     if (role === "user") {
       try {
         // Send login request to backend
-        const response = await axios.post("http://localhost:5000/user/login", {
-          email,
-          password,
-        });
+        const response = await axios.post(
+          "https://project-bus-auxs.onrender.com/user/login",
+          {
+            email,
+            password,
+          }
+        );
         setLoading(false);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         navigate("/");
