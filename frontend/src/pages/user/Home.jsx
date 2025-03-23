@@ -55,13 +55,6 @@ const Home = () => {
             </div>
 
             {/* Feature 2: User Chat */}
-            <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center hover:scale-105 hover:opacity-75 cursor-pointer">
-              <AiOutlineMessage className="text-6xl text-green-500 mb-4" />
-              <h3 className="text-xl font-semibold mb-2">User Chat</h3>
-              <p className="text-gray-600 text-center">
-                Connect with other passengers to discuss routes and schedules.
-              </p>
-            </div>
 
             {/* Feature 3: Email Notifications */}
             <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center hover:scale-105 hover:opacity-75 cursor-pointer">
