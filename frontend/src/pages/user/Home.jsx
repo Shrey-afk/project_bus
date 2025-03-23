@@ -103,7 +103,7 @@ const Home = () => {
               Get Your Bus Pass Now!
             </h2>
             <a
-              href="/applyPass"
+              href="/apply"
               className="px-8 py-4 bg-white text-blue-500 font-semibold text-lg rounded-lg shadow-lg hover:opacity-90 transition duration-300"
             >
               Apply Now
