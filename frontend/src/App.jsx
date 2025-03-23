@@ -17,7 +17,7 @@ import ConductorLogin from "./pages/conductor/ConductorLogin";
 import ChangePasswordConductor from "./pages/conductor/ChangePasswordConductor";
 import SingleConductorBus from "./pages/conductor/SingleConductorBus";
 import History from "./pages/user/History";
-import Chat from "./pages/user/Chat";
+// import Chat from "./pages/user/Chat";
 import ChangePasswordUser from "./pages/user/ChangePasswordUser";
 
 const App = () => {
@@ -34,7 +34,7 @@ const App = () => {
           <Route path="/complaint" element={<Complaint />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/history" element={<History />} />
-          <Route path="/chat" element={<Chat />} />
+          {/* <Route path="/chat" element={<Chat />} /> */}
           <Route path="/changePasswordUser" element={<ChangePasswordUser />} />
 
           <Route path="/appliedUsers" element={<AppliedUsers />} />

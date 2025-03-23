@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaEdit, FaKey } from "react-icons/fa"; // Icons from React Icons
+import { FaKey } from "react-icons/fa"; // Icons from React Icons
 import Header from "../../components/Header";
 
 const Profile = () => {
@@ -58,101 +58,120 @@ const Profile = () => {
     <>
       <Header />
       <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Bus Card Section */}
-          <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-            <div className="flex justify-between items-center mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">Bus Pass</h1>
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200"
-              >
-                <FaKey className="mr-2" />
-                Change Password
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-50 p-6 rounded-lg">
+        <div className="w-full mx-auto">
+          {/* Top Section: Flex Layout for Bus Pass, Change Password, and Additional Details */}
+          <div className="flex justify-between items-start mb-6 gap-6">
+            {/* Bus Pass Card */}
+            <div className="w-80 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold">{user.fullName}</h2>
+                  <p className="text-sm">{user.studentOrGeneral}</p>
+                </div>
                 <img
                   src={user.applicantPhoto}
                   alt="Applicant Photo"
-                  className="w-32 h-32 rounded-full mx-auto mb-4"
+                  className="w-16 h-16 rounded-full border-2 border-white"
                 />
-
-                <h2 className="text-xl font-semibold text-center text-gray-900">
-                  {user.fullName}
-                </h2>
-                <p className="text-sm text-center text-gray-500">
-                  {user.studentOrGeneral}
-                </p>
-                <img className="place-self-center" src={user?.busPass} />
               </div>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Father/Husband Name</p>
-                    <p className="text-lg font-semibold text-gray-900">
-                      {user.fatherOrHusbandName}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Age</p>
-                    <p className="text-lg font-semibold text-gray-900">
-                      {user.age}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Gender</p>
-                    <p className="text-lg font-semibold text-gray-900">
-                      {user.gender}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Mobile Number</p>
-                    <p className="text-lg font-semibold text-gray-900">
-                      {user.mobileNumber}
-                    </p>
-                  </div>
+              <div className="space-y-2">
+                <div>
+                  <p className="text-sm text-blue-100">Father/Husband Name</p>
+                  <p className="font-semibold">{user.fatherOrHusbandName}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-blue-100">Age</p>
+                  <p className="font-semibold">{user.age}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-blue-100">Gender</p>
+                  <p className="font-semibold">{user.gender}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-blue-100">Mobile Number</p>
+                  <p className="font-semibold">{user.mobileNumber}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-blue-100">Validity</p>
+                  <p className="font-semibold">
+                    {user.validityOfPass} month(s)
+                  </p>
                 </div>
               </div>
+              {/* QR Image Below Profile Picture */}
+              <div className="mt-4 text-center">
+                <img
+                  src={user.busPass}
+                  alt="Bus Pass QR"
+                  className="w-24 h-24 mx-auto object-contain"
+                />
+              </div>
             </div>
-          </div>
-
-          {/* Additional User Details Section */}
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">
-              User Details
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <p className="text-sm text-gray-500">Email</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {user.email}
-                </p>
+            {/* Additional User Details Section */}
+            <div className="bg-white rounded-lg shadow-lg p-6 w-[900px]">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">
+                User Details
+              </h2>
+              {/* Grid Layout for User Details */}
+              <div className="grid grid-cols-2 gap-6 mb-6">
+                <div>
+                  <p className="text-sm text-gray-500">Email</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.email}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Address</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.address}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">ID Proof Type</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.idProofType}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Type of Bus Pass</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.typeOfBusPass}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Gender</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.gender}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Mobile Number</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.mobileNumber}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Validity of Pass</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.validityOfPass} month(s)
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Father/Husband Name</p>
+                  <p className="text-lg font-semibold text-gray-900">
+                    {user.fatherOrHusbandName}
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-sm text-gray-500">Address</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {user.address}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">ID Proof Type</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {user.idProofType}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Type of Bus Pass</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {user.typeOfBusPass}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Validity of Pass</p>
-                <p className="text-lg font-semibold text-gray-900">
-                  {user.validityOfPass} month(s)
-                </p>
+              {/* Change Password Button at Bottom-Right */}
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-all duration-200"
+                >
+                  <FaKey className="mr-2" />
+                  Change Password
+                </button>
               </div>
             </div>
           </div>

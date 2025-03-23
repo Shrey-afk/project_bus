@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Make sure you have axios installed
+import { ImSpinner8 } from "react-icons/im";
 
 const ConductorLogin = () => {
   const [email, setEmail] = useState("");
@@ -8,35 +9,35 @@ const ConductorLogin = () => {
   const [errorMessage, setErrorMessage] = useState(""); // State for error messages
   const navigate = useNavigate(); // Hook to navigate after successful login
   const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       // Send login request to backend
-      const response = await axios.post(
-        "http://localhost:5000/conductor/login",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post("/conductor/login", {
+        email,
+        password,
+      });
       localStorage.setItem(
         "conductor",
         JSON.stringify(response.data.conductor)
       );
+      setLoading(false);
 
       navigate("/conductorBuses");
     } catch (error) {
       // Handle login error
+      console.log(error);
       setErrorMessage(error.response?.data?.message || "Login failed");
     }
   };
 
   return (
     <div className="h-screen flex items-center justify-end bg-[url('https://img.freepik.com/free-photo/crop-female-hand-using-validator-payment-while-boarding-public-transport-close-up-hand_7502-10606.jpg?t=st=1739288671~exp=1739292271~hmac=d91f11b0078ae01b27e8e7984fcad1e982c8dc58822a6969e2ff66cb87b79aed&w=1060')] bg-cover">
-      <div className="w-full h-full backdrop-blur-sm flex items-center justify-end">
-        <div className="bg-opacity-65 bg-white shadow-lg rounded-lg p-8 max-w-md w-full mr-10 font-serif">
+      <div className="w-full h-full backdrop-blur-sm flex items-center justify-end p-4">
+        <div className="bg-opacity-65 bg-white shadow-lg rounded-lg p-8 max-w-md w-full lg:mr-10 font-serif">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
             LOGIN (as conductor)
           </h2>
@@ -84,7 +85,11 @@ const ConductorLogin = () => {
                 type="submit"
                 className="bg-purple-500 text-center hover:bg-purple-600 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline w-full"
               >
-                Sign In
+                {loading ? (
+                  <ImSpinner8 className="animate-spin place-self-center" />
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </div>
 

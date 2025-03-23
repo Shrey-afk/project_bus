@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
-const http = require("http");
-const { Server } = require("socket.io");
+// const http = require("http");
+// const { Server } = require("socket.io");
 
 const tempRoutes = require("./routes/tempUserRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -14,45 +14,45 @@ const connectDB = require("./config/db");
 
 connectDB();
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
+// const server = http.createServer(app);
+// // const io = new Server(server, {
+// //   cors: {
+// //     origin: "*",
+// //     methods: ["GET", "POST"],
+// //   },
+// // });
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const chatHistory = [];
 const activeUsers = {}; // Store active users with their socket IDs
 
-io.on("connection", (socket) => {
-  console.log(`New client connected: ${socket.id}`);
+// io.on("connection", (socket) => {
+//   console.log(`New client connected: ${socket.id}`);
 
-  socket.on("addUser", (username) => {
-    activeUsers[socket.id] = username;
-    io.emit("activeUsers", Object.values(activeUsers));
-  });
+//   socket.on("addUser", (username) => {
+//     activeUsers[socket.id] = username;
+//     io.emit("activeUsers", Object.values(activeUsers));
+//   });
 
-  socket.emit("chatHistory", chatHistory);
+//   socket.emit("chatHistory", chatHistory);
 
-  socket.on("sendMessage", (msg) => {
-    const message = { ...msg, sender: msg.username };
-    chatHistory.push(message);
-    io.emit("receiveMessage", message);
-  });
+//   socket.on("sendMessage", (msg) => {
+//     const message = { ...msg, sender: msg.username };
+//     chatHistory.push(message);
+//     io.emit("receiveMessage", message);
+//   });
 
-  socket.on("disconnect", () => {
-    delete activeUsers[socket.id];
-    io.emit("activeUsers", Object.values(activeUsers));
-    console.log(`Client disconnected: ${socket.id}`);
-  });
-});
+//   socket.on("disconnect", () => {
+//     delete activeUsers[socket.id];
+//     io.emit("activeUsers", Object.values(activeUsers));
+//     console.log(`Client disconnected: ${socket.id}`);
+//   });
+// });
 
 app.use("/tempUser", tempRoutes);
 app.use("/user", userRoutes);
@@ -175,6 +175,6 @@ app.post("/send-conductor", async (req, res) => {
 });
 
 // Start server
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

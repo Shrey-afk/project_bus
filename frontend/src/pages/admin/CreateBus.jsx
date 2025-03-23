@@ -13,6 +13,10 @@ const CreateBus = () => {
     to: "",
     date: "",
     departureTime: "",
+    firstBus: "",
+    lastBus: "",
+    description: "",
+    routes: "",
     // conductor: "",
   });
   const [editBusData, setEditBusData] = useState({
@@ -22,6 +26,10 @@ const CreateBus = () => {
     to: "",
     date: "",
     departureTime: "",
+    firstBus: "",
+    lastBus: "",
+    description: "",
+    routes: "",
     // conductor: "",
   });
 
@@ -48,6 +56,10 @@ const CreateBus = () => {
         to: "",
         date: "",
         departureTime: "",
+        firstBus: "",
+        lastBus: "",
+        description: "",
+        routes: "",
         // conductor: "",
       });
       getAllBuses(); // Refresh the list of buses
@@ -97,7 +109,11 @@ const CreateBus = () => {
       to: bus.to,
       date: bus.date,
       departureTime: bus.departureTime,
-      conductor: bus.conductor,
+      firstBus: bus.firstBus,
+      lastBus: bus.lastBus,
+      description: bus.description,
+      routes: bus.routes,
+      // conductor: bus.conductor,
     });
     setIsEditModalOpen(true);
   };
@@ -152,14 +168,7 @@ const CreateBus = () => {
                 className="w-full border px-3 py-2 rounded-lg"
                 required
               />
-              <input
-                type="date"
-                name="date"
-                value={busData.date}
-                onChange={handleChange}
-                className="w-full border px-3 py-2 rounded-lg"
-                required
-              />
+
               <input
                 type="time"
                 name="departureTime"
@@ -168,7 +177,37 @@ const CreateBus = () => {
                 className="w-full border px-3 py-2 rounded-lg"
                 required
               />
-
+              <input
+                type="time"
+                name="firstBus"
+                value={busData.firstBus}
+                onChange={handleChange}
+                placeholder="First Bus"
+                className="w-full border px-3 py-2 rounded-lg"
+              />
+              <input
+                type="time"
+                name="lastBus"
+                value={busData.lastBus}
+                onChange={handleChange}
+                placeholder="Last Bus"
+                className="w-full border px-3 py-2 rounded-lg"
+              />
+              <input
+                type="text"
+                name="routes"
+                value={busData.routes}
+                onChange={handleChange}
+                placeholder="Enter all Routes"
+                className="w-full border px-3 py-2 rounded-lg"
+              />
+              <textarea
+                name="description"
+                value={busData.description}
+                onChange={handleChange}
+                placeholder="Description"
+                className="w-full border px-3 py-2 rounded-lg"
+              />
               <div className="flex justify-end space-x-2">
                 <button
                   type="button"
@@ -239,11 +278,34 @@ const CreateBus = () => {
                 required
               />
               <input
-                type="text"
-                name="conductor"
-                value={editBusData.conductor}
+                type="time"
+                name="firstBus"
+                value={editBusData.firstBus}
                 onChange={handleEditChange}
-                placeholder="Conductor ID"
+                placeholder="First Bus"
+                className="w-full border px-3 py-2 rounded-lg"
+              />
+              <input
+                type="time"
+                name="lastBus"
+                value={editBusData.lastBus}
+                onChange={handleEditChange}
+                placeholder="Last Bus"
+                className="w-full border px-3 py-2 rounded-lg"
+              />
+              <input
+                type="time"
+                name="lastBus"
+                value={editBusData.routes}
+                onChange={handleEditChange}
+                placeholder="Last Bus"
+                className="w-full border px-3 py-2 rounded-lg"
+              />
+              <textarea
+                name="description"
+                value={editBusData.description}
+                onChange={handleEditChange}
+                placeholder="Description"
                 className="w-full border px-3 py-2 rounded-lg"
               />
               <div className="flex justify-end space-x-2">
@@ -269,11 +331,11 @@ const CreateBus = () => {
       {/* Display Buses in Card Format */}
       <div className="max-w-4xl mx-auto mt-10 p-6">
         <h2 className="text-2xl font-bold mb-4">All Buses</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex justify-center items-center gap-10 flex-wrap">
           {allBuses.map((bus) => (
             <div
               key={bus._id}
-              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 w-[400px]"
             >
               <div className="flex items-center justify-between mb-4">
                 <FaBus className="text-4xl text-blue-600" />
@@ -299,13 +361,23 @@ const CreateBus = () => {
               <p className="text-gray-600 mb-1">
                 <span className="font-medium">To:</span> {bus.to}
               </p>
-              <p className="text-gray-600 mb-1">
-                <span className="font-medium">Date:</span>{" "}
-                {new Date(bus.date).toLocaleDateString()}
-              </p>
+
               <p className="text-gray-600 mb-1">
                 <span className="font-medium">Departure Time:</span>{" "}
                 {bus.departureTime}
+              </p>
+              <p className="text-gray-600 mb-1">
+                <span className="font-medium">First Bus:</span> {bus.firstBus}
+              </p>
+              <p className="text-gray-600 mb-1">
+                <span className="font-medium">Last Bus:</span> {bus.lastBus}
+              </p>
+              <p className="text-gray-600 mb-1">
+                <span className="font-medium">Stops:</span> {bus.routes}
+              </p>
+              <p className="text-gray-600 mb-1">
+                <span className="font-medium">Description:</span>{" "}
+                {bus.description}
               </p>
               <p className="text-gray-600 mb-1">
                 <span className="font-medium">Created At:</span>{" "}

@@ -11,16 +11,25 @@ const busSchema = new mongoose.Schema(
     to: {
       type: String,
     },
-    date: {
+    firstBus: {
+      type: String,
+    },
+    lastBus: {
+      type: String,
+    },
+    description: {
       type: String,
     },
     departureTime: {
       type: String,
     },
-    // conductor: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "Conductor",
-    // },
+    arrivalTime: {
+      type: String,
+    },
+    routes: {
+      type: String,
+    },
+
     users: [
       {
         type: mongoose.Schema.Types.ObjectId,

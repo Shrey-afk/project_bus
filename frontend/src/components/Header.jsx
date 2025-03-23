@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa"; // Import hamburger and close icons
 
 const Header = () => {
   const user = localStorage.getItem("user");
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State to manage mobile menu visibility
 
   const handleLogout = () => {
     localStorage.removeItem("user"); // Clear user data from local storage
     navigate("/login"); // Redirect to the login page
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen); // Toggle mobile menu visibility
   };
 
   return (
@@ -16,15 +22,29 @@ const Header = () => {
         {/* App Name */}
         <h1 className="text-2xl font-bold">CityCommute</h1>
 
+        {/* Hamburger Icon for Mobile */}
+        <div className="md:hidden" onClick={toggleMobileMenu}>
+          {isMobileMenuOpen ? (
+            <FaTimes className="text-2xl cursor-pointer" />
+          ) : (
+            <FaBars className="text-2xl cursor-pointer" />
+          )}
+        </div>
+
         {/* Navigation Links */}
-        <nav className="text-[20px]">
-          <ul className="flex space-x-10">
+        <nav
+          className={`${
+            isMobileMenuOpen ? "block" : "hidden"
+          } md:block absolute md:static top-16 left-0 w-full h-[100vh] lg:h-auto md:w-auto bg-slate-200 md:bg-transparent z-50`}
+        >
+          <ul className="flex flex-col md:flex-row md:space-x-10 space-y-4 md:space-y-0 p-4 md:p-0">
             <Link to="/" className="hover:text-blue-300 transition-colors">
               Home
             </Link>
             <Link to="/apply" className="hover:text-blue-300 transition-colors">
               Apply
             </Link>
+
             {user ? (
               <>
                 <Link

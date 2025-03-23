@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ImSpinner8 } from "react-icons/im";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -125,7 +126,11 @@ const Register = () => {
                 className="bg-purple-500 text-center hover:bg-purple-600 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline w-full"
                 disabled={loading}
               >
-                {loading ? "Loading..." : "Sign Up"}
+                {loading ? (
+                  <ImSpinner8 className="animate-spin place-self-center" />
+                ) : (
+                  "SignUp"
+                )}
               </button>
             </div>
             <p className="text-center text-gray-600 text-[16px] mt-4">
