@@ -44,7 +44,7 @@ const Home = () => {
         {/* Features Section */}
         <section className="py-16 bg-gray-100">
           <h2 className="text-4xl font-bold text-center mb-8">Our Features</h2>
-          <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+          <div className="flex justify-center items-center flex-wrap gap-8 px-4">
             {/* Feature 1: Digital Bus Pass */}
             <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center hover:scale-105 hover:opacity-75 cursor-pointer">
               <AiOutlineCreditCard className="text-6xl text-blue-500 mb-4" />
