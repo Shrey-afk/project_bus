@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios"; // Make sure you have axios installed
 import { ImSpinner8 } from "react-icons/im";
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -42,6 +43,8 @@ const Login = () => {
         navigate("/");
       } catch (error) {
         // Handle login error
+        toast.error(error.response?.data?.message);
+        setLoading(false);
         setErrorMessage(error.response?.data?.message || "Login failed");
       }
     } else {
@@ -142,6 +145,7 @@ const Login = () => {
             </p>
           </form>
         </div>
+        <Toaster position="top-center" reverseOrder={false} />
       </div>
     </div>
   );

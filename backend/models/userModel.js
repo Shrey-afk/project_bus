@@ -12,7 +12,12 @@ const UserSchema = new mongoose.Schema(
     gender: { type: String, required: true },
     address: { type: String, required: true },
     studentOrGeneral: { type: String, required: true },
-    applicantPhoto: { type: String, required: true },
+    applicantPhoto: {
+      type: String,
+      required: true,
+      default:
+        "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?t=st=1743088293~exp=1743091893~hmac=44eb08b327bd26430ed107a817c7817097380f7f25f56e90108fbf1f5e86f89b&w=826",
+    },
     idProofType: { type: String, required: true },
     idProofAttachment: { type: String, required: true },
     password: {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaKey } from "react-icons/fa"; // Icons from React Icons
+import { FaKey } from "react-icons/fa";
 import Header from "../../components/Header";
 
 const Profile = () => {
@@ -54,6 +54,21 @@ const Profile = () => {
     return <div>Loading...</div>;
   }
 
+  // Calculate validity dates
+  const issueDate = new Date();
+  const expiryDate = new Date();
+  expiryDate.setMonth(issueDate.getMonth() + parseInt(user.validityOfPass));
+
+  const formatDate = (date) => {
+    return date
+      .toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      })
+      .toUpperCase();
+  };
+
   return (
     <>
       <Header />
@@ -61,54 +76,88 @@ const Profile = () => {
         <div className="w-full mx-auto">
           {/* Top Section: Flex Layout for Bus Pass, Change Password, and Additional Details */}
           <div className="flex flex-col lg:flex-row justify-between items-start gap-6">
-            {/* Bus Pass Card */}
-            <div className="w-full lg:w-80 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-xl font-bold">{user.fullName}</h2>
-                  <p className="text-sm">{user.studentOrGeneral}</p>
-                </div>
-                <img
-                  src={user.applicantPhoto}
-                  alt="Applicant Photo"
-                  className="w-16 h-16 rounded-full border-2 border-white"
-                />
+            {/* Bus Pass Card - Redesigned like TSRTC */}
+            <div className="w-full lg:w-96 bg-white rounded-lg shadow-lg border-2 border-gray-300 p-4 text-gray-800 font-mono">
+              {/* TSRTC Header */}
+              <div className="text-center mb-4">
+                <h1 className="text-2xl font-bold text-red-600">TSRTC</h1>
+                <div className="border-b-2 border-dashed border-gray-400 my-2"></div>
+                <h2 className="text-lg font-semibold">METRO EXPRESS PASS</h2>
               </div>
-              <div className="space-y-2">
-                <div>
-                  <p className="text-sm text-blue-100">Father/Husband Name</p>
-                  <p className="font-semibold">{user.fatherOrHusbandName}</p>
+
+              {/* Main Content */}
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="col-span-2">
+                  <div className="mb-2">
+                    <p className="text-xs text-gray-500">NAME</p>
+                    <p className="font-bold">{user.fullName.toUpperCase()}</p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-xs text-gray-500">FATHER/HUSBAND NAME</p>
+                    <p className="font-bold">
+                      {user.fatherOrHusbandName.toUpperCase()}
+                    </p>
+                  </div>
+                  <div className="mb-2">
+                    <p className="text-xs text-gray-500">MOBILE NUMBER</p>
+                    <p className="font-bold">{user.mobileNumber}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-blue-100">Age</p>
-                  <p className="font-semibold">{user.age}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-blue-100">Gender</p>
-                  <p className="font-semibold">{user.gender}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-blue-100">Mobile Number</p>
-                  <p className="font-semibold">{user.mobileNumber}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-blue-100">Validity</p>
-                  <p className="font-semibold">
-                    {user.validityOfPass} month(s)
-                  </p>
+                <div className="flex flex-col items-center">
+                  <img
+                    src={user.applicantPhoto}
+                    alt="Applicant Photo"
+                    className="w-20 h-20 rounded-full border-2 border-gray-400 mb-2"
+                  />
+                  <img
+                    src={user.busPass}
+                    alt="Bus Pass QR"
+                    className="w-16 h-16 object-contain"
+                  />
                 </div>
               </div>
-              {/* QR Image Below Profile Picture */}
-              <div className="mt-4 text-center">
-                <img
-                  src={user.busPass}
-                  alt="Bus Pass QR"
-                  className="w-24 h-24 mx-auto object-contain"
-                />
+
+              {/* Bottom Section */}
+              <div className="border-t-2 border-dashed border-gray-400 pt-3">
+                <div className="grid grid-cols-2 gap-4 mb-2">
+                  <div>
+                    <p className="text-xs text-gray-500">TICKET No.</p>
+                    <p className="font-bold">
+                      TK{Math.floor(10000000 + Math.random() * 90000000)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">D.No.</p>
+                    <p className="font-bold">
+                      RMPD-{Math.floor(1000000000 + Math.random() * 9000000000)}
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-4 mb-2">
+                  <div>
+                    <p className="text-xs text-gray-500">ISSUE DATE</p>
+                    <p className="font-bold">{formatDate(issueDate)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">VALIDITY</p>
+                    <p className="font-bold">{formatDate(expiryDate)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500">TOTAL Rs.</p>
+                    <p className="font-bold">
+                      {user.typeOfBusPass === "Student" ? "500/-" : "1000/-"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="text-center mt-2 text-xs">
+                <p>RMPDOTSULTARY COMMANDING</p>
               </div>
             </div>
 
-            {/* Additional User Details Section */}
+            {/* Rest of your existing code remains the same */}
             <div className="w-full bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">
                 User Details

@@ -115,7 +115,21 @@ const Apply = () => {
       );
       if (!response.data?.success) {
         setLoader(false);
-        setFormData("");
+        setFormData({
+          email: "",
+          fullName: "",
+          fatherOrHusbandName: "",
+          age: "",
+          mobileNumber: "",
+          gender: "",
+          address: "",
+          studentOrGeneral: "",
+          applicantPhoto: "",
+          idProofType: "",
+          idProofAttachment: "",
+          typeOfBusPass: "",
+          validityOfPass: "",
+        });
         return toast.error("You have already applied for bus pass!");
       }
       localStorage.setItem("Applied", true);
