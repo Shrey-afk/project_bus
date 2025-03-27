@@ -48,7 +48,7 @@ exports.createTempUser = async (req, res) => {
     const user = await tempUser.findOne({ email });
     if (user) {
       return res
-        .status(400)
+        .status(200)
         .send({ message: "User already exists", success: false });
     }
 

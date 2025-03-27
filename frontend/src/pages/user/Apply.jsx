@@ -11,6 +11,8 @@ import { MdEmail, MdDateRange } from "react-icons/md";
 import Header from "../../components/Header";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, Toaster } from "react-hot-toast";
+import { ImSpinner8 } from "react-icons/im";
 
 const Apply = () => {
   const navigate = useNavigate();
@@ -70,7 +72,7 @@ const Apply = () => {
       image:
         "https://images.pexels.com/photos/430205/pexels-photo-430205.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", // Add your logo URL
       handler: function (response) {
-        alert(
+        toast.success(
           `Payment Successful! Payment ID: ${response.razorpay_payment_id}`
         );
         console.log(response);
@@ -111,6 +113,11 @@ const Apply = () => {
         "https://project-bus-auxs.onrender.com/tempUser/create",
         dataToSend
       );
+      if (!response.data?.success) {
+        setLoader(false);
+        setFormData("");
+        return toast.error("You have already applied for bus pass!");
+      }
       localStorage.setItem("Applied", true);
       console.log("Form submitted successfully:", response.data);
 
@@ -360,11 +367,16 @@ const Apply = () => {
                   type="submit"
                   className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  {loader ? "Applying..." : "Submit Application"}
+                  {loader ? (
+                    <ImSpinner8 className="animate-spin " />
+                  ) : (
+                    "Submit Application"
+                  )}
                 </button>
               </div>
             </form>
           </div>
+          <Toaster position="top-center" reverseOrder={false} />
         </div>
       )}
     </>
