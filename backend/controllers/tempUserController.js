@@ -45,6 +45,13 @@ exports.createTempUser = async (req, res) => {
       approved,
     });
 
+    const user = await tempUser.findOne({ email });
+    if (user) {
+      return res
+        .status(400)
+        .send({ message: "User already exists", success: false });
+    }
+
     await newUser.save();
     res.status(201).json({ message: "Temporary user created successfully" });
   } catch (error) {
